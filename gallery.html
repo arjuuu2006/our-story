@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gallery</title>
+
+<style>
+
+/* 🌸 Pink background */
+body{
+background:#fff0f5;
+text-align:center;
+font-family:Arial, sans-serif;
+}
+
+/* 🔐 Lock screen */
+#lockScreen{
+text-align:center;
+margin-top:150px;
+}
+
+/* 💗 Hearts */
+.heart{
+position:fixed;
+top:-10px;
+font-size:20px;
+animation:fall 5s linear;
+}
+
+@keyframes fall{
+to{
+transform:translateY(100vh);
+opacity:0;
+}
+}
+
+/* 📦 Boxes */
+.boxes{
+display:flex;
+justify-content:center;
+gap:25px;
+margin:40px;
+flex-wrap:wrap;
+}
+
+.box{
+background:white;
+padding:40px;
+width:220px;
+border-radius:15px;
+box-shadow:0 6px 12px rgba(0,0,0,0.2);
+cursor:pointer;
+font-size:18px;
+font-weight:bold;
+color:#ff5fa2;
+transition:transform 0.3s;
+}
+
+.box:hover{
+transform:scale(1.05);
+}
+
+.section{
+display:none;
+margin-top:40px;
+}
+
+/* 📷 Album */
+.album{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+padding:30px;
+}
+
+.album img{
+width:100%;
+border-radius:12px;
+}
+
+/* 🎞️ Slideshow */
+.slideshow{
+width:40%;
+margin:auto;
+}
+
+.slideshow img{
+width:100%;
+border-radius:12px;
+opacity:1;
+transition:opacity 1s ease-in-out;
+}
+
+/* 🎥 Video */
+.video-box{
+width:70%;
+margin:auto;
+}
+
+video{
+width:100%;
+border-radius:12px;
+}
+
+.btn{
+margin:12px;
+padding:10px 18px;
+border:none;
+border-radius:10px;
+background:#ff5fa2;
+color:white;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 PASSWORD LOCK -->
+<div id="lockScreen">
+<h2>🔐 This Gallery is only for you 💗</h2>
+<input type="password" id="galleryPass" placeholder="Enter password">
+<br><br>
+<button class="btn" onclick="unlockGallery()">Unlock 💕</button>
+<p id="lockMsg" style="color:red;"></p>
+</div>
+
+<!-- 📸 GALLERY CONTENT -->
+<div id="galleryContent" style="display:none;">
+
+<h1>📸 Our Gallery</h1>
+
+<!-- MENU BOXES -->
+<div class="boxes">
+
+<div class="box" onclick="openSection('photos')">Our Pictures 💕</div>
+<div class="box" onclick="openSection('slideshow')">Slideshow 🎞️</div>
+<div class="box" onclick="openSection('videos')">Memorable Videos 🎥</div>
+
+</div>
+
+<!-- 📷 PHOTO ALBUM -->
+<div id="photos" class="section">
+
+<h2>💗 Our Pictures</h2>
+
+<div class="album">
+
+<img src="assets/images/1.jpg">
+<img src="assets/images/2.jpg">
+<img src="assets/images/3.jpg">
+<img src="assets/images/4.jpg">
+<img src="assets/images/5.jpg">
+<img src="assets/images/6.jpg">
+<img src="assets/images/7.jpg">
+<img src="assets/images/8.jpg">
+<img src="assets/images/9.jpg">
+<img src="assets/images/10.jpg">
+<img src="assets/images/11.jpg">
+<img src="assets/images/12.jpg">
+<img src="assets/images/13.jpg">
+<img src="assets/images/14.jpg">
+<img src="assets/images/15.jpg">
+<img src="assets/images/16.jpg">
+<img src="assets/images/17.jpg">
+<img src="assets/images/18.jpg">
+<img src="assets/images/19.jpg">
+<img src="assets/images/20.jpg">
+<img src="assets/images/21.jpg">
+<img src="assets/images/22.jpg">
+<img src="assets/images/23.jpg">
+<img src="assets/images/24.jpg">
+
+</div>
+</div>
+
+<!-- 🎞️ SLIDESHOW -->
+<div id="slideshow" class="section">
+
+<h2>💞 Slideshow Memories</h2>
+
+<div class="slideshow">
+<img id="slide" src="assets/images/s1.jpg">
+</div>
+
+<button class="btn" onclick="startSlideshow()">Start Slideshow 🎞️</button>
+
+</div>
+
+<!-- 🎥 VIDEOS -->
+<div id="videos" class="section">
+
+<h2>🎥 Our Special Moments</h2>
+
+<div class="video-box">
+<video id="videoPlayer" controls></video>
+</div>
+
+<button class="btn" onclick="startVideos()">Start Videos 🎥</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* 🔐 Unlock gallery */
+function unlockGallery(){
+const pass=document.getElementById("galleryPass").value;
+
+if(pass==="love"){
+document.getElementById("lockScreen").style.display="none";
+document.getElementById("galleryContent").style.display="block";
+startHearts();
+}else{
+document.getElementById("lockMsg").innerText="Wrong password 😅";
+}
+}
+
+/* 📂 Open section */
+function openSection(id){
+
+document.getElementById("videoPlayer").pause();
+
+document.querySelectorAll('.section').forEach(sec=>{
+sec.style.display="none";
+});
+
+document.getElementById(id).style.display="block";
+}
+
+/* 🎞️ Slideshow (11 images) */
+const slides=[
+"assets/images/s1.jpg",
+"assets/images/s2.jpg",
+"assets/images/s3.jpg",
+"assets/images/s4.jpg",
+"assets/images/s5.jpg",
+"assets/images/s6.jpg",
+"assets/images/s7.jpg",
+"assets/images/s8.jpg",
+"assets/images/s9.jpg",
+"assets/images/s10.jpg",
+"assets/images/s11.jpg"
+];
+
+let slideIndex=0;
+let slideTimer=null;
+
+function startSlideshow(){
+
+if(slideTimer) return;
+
+slideTimer=setInterval(()=>{
+
+const img=document.getElementById("slide");
+img.style.opacity=0;
+
+setTimeout(()=>{
+img.src=slides[slideIndex];
+img.style.opacity=1;
+slideIndex=(slideIndex+1)%slides.length;
+},500);
+
+},1800);
+}
+
+/* 🎥 Videos (10) */
+const videos=[
+"assets/videos/v1.mp4",
+"assets/videos/v2.mp4",
+"assets/videos/v3.mp4",
+"assets/videos/v4.mp4",
+"assets/videos/v5.mp4",
+"assets/videos/v6.mp4",
+"assets/videos/v7.mp4",
+"assets/videos/v8.mp4",
+"assets/videos/v9.mp4",
+"assets/videos/v10.mp4"
+];
+
+let videoIndex=0;
+const player=document.getElementById("videoPlayer");
+
+function startVideos(){
+player.src=videos[videoIndex];
+player.play();
+}
+
+player.onended=()=>{
+videoIndex=(videoIndex+1)%videos.length;
+player.src=videos[videoIndex];
+player.play();
+};
+
+/* 💗 Auto hearts */
+function startHearts(){
+setInterval(createHeart,300);
+}
+
+function createHeart(){
+const heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💗";
+heart.style.left=Math.random()*100+"vw";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),5000);
+}
+
+</script>
+
+</body>
+</html>

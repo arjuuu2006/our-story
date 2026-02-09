@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Love Notes</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h1>💌 Love Notes for You</h1>
+
+<!-- 🎵 Background Music -->
+<audio id="bgMusic" loop>
+  <source src="assets/music/song.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🎵 Music Control Button -->
+<div style="margin:20px;">
+
+<button onclick="toggleMusic()" style="margin-right:15px;">
+Play / Pause Music 🎵
+</button>
+
+<button onclick="newNote()">
+Show another note 💗
+</button>
+
+</div>
+
+<div id="noteBox"></div>
+
+<script>
+
+const notes = [
+"You make my days brighter just by being in them.",
+"I feel safe and happy whenever I think about you.",
+"You are my favorite person in the world.",
+"Every moment with you means so much to me.",
+"I smile whenever your name comes to my mind.",
+"You are my heart’s happiest place.",
+"I’m grateful for you every single day.",
+"You make everything feel better just by being here.",
+"You are my peace and my happiness."
+];
+
+// 🎲 Random Note Function
+function newNote(){
+  const random = notes[Math.floor(Math.random()*notes.length)];
+
+  document.getElementById("noteBox").innerHTML = `
+    <div class="event">
+      <p style="font-size:20px;">${random}</p>
+      <p style="text-align:right;">— Always, Arjun 💗</p>
+    </div>
+  `;
+}
+
+// 🎵 Music Play / Pause
+const music = document.getElementById("bgMusic");
+
+function toggleMusic(){
+  if(music.paused){
+    music.play();
+  } else {
+    music.pause();
+  }
+}
+
+// Show first note when page loads
+newNote();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body style="text-align:center;margin-top:80px;">
+
+<h2>💙 Click when you miss me</h2>
+
+<button onclick="show()">I Miss You</button>
+
+<div id="msg" style="margin-top:30px;"></div>
+
+<script>
+
+const messages=[
+"I’m always thinking about you.",
+"I wish I could hug you right now.",
+"You are never alone.",
+"My heart is always with you.",
+"You mean everything to me."
+];
+
+function show(){
+const r = messages[Math.floor(Math.random()*messages.length)];
+document.getElementById("msg").innerHTML = `
+<p style="font-size:20px;">${r}</p>
+<p>— Always, Arjun 💙</p>
+`;
+}
+
+</script>
+
+</body>
+</html>
